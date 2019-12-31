@@ -21,6 +21,9 @@ open class BibtexBlock(
         var child = myNode.firstChildNode
 
         while (child != null) {
+            if (child.elementType == BibtexTypes.ENTRY) {
+                BibtexAssignmentAlignment.createAlignment(child)
+            }
             if (child.elementType != TokenType.WHITE_SPACE) {
                 val block = BibtexBlock(
                         child,
@@ -41,13 +44,12 @@ open class BibtexBlock(
 
     override fun isLeaf() = myNode.firstChildNode == null
 
-    override fun getAlignment(): Alignment? {
-        val type = myNode.elementType
-        if (type == BibtexTypes.ASSIGNMENT) {
-            return FormatterMagic.bibAssignAlignment
-        }
-        return null
-    }
+    override fun getAlignment(): Alignment? =
+            if (myNode.elementType == BibtexTypes.ASSIGNMENT) {
+                val entryNode: ASTNode = myNode.treeParent.treeParent.treeParent
+                BibtexAssignmentAlignment.alignmentByEntry[entryNode]
+            }
+            else null
 
     override fun getIndent(): Indent? {
         val type = myNode.elementType
@@ -75,6 +77,10 @@ open class BibtexBlock(
     }
 }
 
-object FormatterMagic {
-    val bibAssignAlignment: Alignment = Alignment.createAlignment(true)
+object BibtexAssignmentAlignment {
+    val alignmentByEntry: MutableMap<ASTNode, Alignment> = mutableMapOf()
+
+    fun createAlignment(entry: ASTNode) {
+        alignmentByEntry.putIfAbsent(entry, Alignment.createAlignment(true, Alignment.Anchor.RIGHT))
+    }
 }
