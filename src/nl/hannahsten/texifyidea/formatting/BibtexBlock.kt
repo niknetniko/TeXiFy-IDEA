@@ -41,6 +41,14 @@ open class BibtexBlock(
 
     override fun isLeaf() = myNode.firstChildNode == null
 
+    override fun getAlignment(): Alignment? {
+        val type = myNode.elementType
+        if (type == BibtexTypes.ASSIGNMENT) {
+            return FormatterMagic.bibAssignAlignment
+        }
+        return null
+    }
+
     override fun getIndent(): Indent? {
         val type = myNode.elementType
 
@@ -65,4 +73,8 @@ open class BibtexBlock(
 
         return ChildAttributes(Indent.getNoneIndent(), null)
     }
+}
+
+object FormatterMagic {
+    val bibAssignAlignment: Alignment = Alignment.createAlignment(true)
 }

@@ -48,6 +48,8 @@ class LatexLanguageCodeStyleSettingsProvider : LanguageCodeStyleSettingsProvider
     }
 
     private fun customizeBlankLinesSettings(consumer: CodeStyleSettingsCustomizable) {
+        consumer.renameStandardOption(CodeStyleSettingsCustomizable.BLANK_LINES, "Number of Blank Lines")
+
         LatexCodeStyleSettings.blankLinesOptions.forEach {
             consumer.showCustomOption(
                     LatexCodeStyleSettings::class.java,
@@ -57,5 +59,4 @@ class LatexLanguageCodeStyleSettingsProvider : LanguageCodeStyleSettingsProvider
             )
         }
     }
-
 }

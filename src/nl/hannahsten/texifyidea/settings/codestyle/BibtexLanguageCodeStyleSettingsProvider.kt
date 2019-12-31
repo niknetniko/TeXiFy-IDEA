@@ -3,6 +3,7 @@ package nl.hannahsten.texifyidea.settings.codestyle
 import com.intellij.application.options.SmartIndentOptionsEditor
 import com.intellij.lang.Language
 import com.intellij.psi.codeStyle.CodeStyleSettingsCustomizable
+import com.intellij.psi.codeStyle.CodeStyleSettingsCustomizable.WrappingOrBraceOption.*
 import com.intellij.psi.codeStyle.CommonCodeStyleSettings
 import com.intellij.psi.codeStyle.LanguageCodeStyleSettingsProvider
 import com.intellij.psi.codeStyle.extractor.values.Value
@@ -30,11 +31,13 @@ class BibtexLanguageCodeStyleSettingsProvider : LanguageCodeStyleSettingsProvide
     }
 
     private fun customizeWrappingAndBracesSettings(consumer: CodeStyleSettingsCustomizable) {
+        consumer.renameStandardOption("ALIGN_MULTILINE_ASSIGNMENT", "Align = in columns")
         consumer.showStandardOptions(*arrayOf(
                 Value.VAR_KIND.RIGHT_MARGIN,
-                CodeStyleSettingsCustomizable.WrappingOrBraceOption.WRAP_ON_TYPING,
-                CodeStyleSettingsCustomizable.WrappingOrBraceOption.WRAP_LONG_LINES,
-                CodeStyleSettingsCustomizable.WrappingOrBraceOption.KEEP_FIRST_COLUMN_COMMENT
+                WRAP_ON_TYPING,
+                WRAP_LONG_LINES,
+                KEEP_FIRST_COLUMN_COMMENT,
+                ALIGN_MULTILINE_ASSIGNMENT
         ).map { it.toString() }.toTypedArray())
     }
 }
