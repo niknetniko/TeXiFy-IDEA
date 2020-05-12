@@ -1,5 +1,6 @@
 package nl.hannahsten.texifyidea.lang
 
+import com.intellij.openapi.fileTypes.FileTypeManager
 import nl.hannahsten.texifyidea.lang.Argument.Type
 import nl.hannahsten.texifyidea.lang.Package.Companion.ALGPSEUDOCODE
 import nl.hannahsten.texifyidea.lang.Package.Companion.AMSMATH
@@ -10,10 +11,18 @@ import nl.hannahsten.texifyidea.lang.Package.Companion.DEFAULT
 import nl.hannahsten.texifyidea.lang.Package.Companion.FONTENC
 import nl.hannahsten.texifyidea.lang.Package.Companion.GRAPHICX
 import nl.hannahsten.texifyidea.lang.Package.Companion.MATHTOOLS
+import nl.hannahsten.texifyidea.lang.Package.Companion.MINTED
 import nl.hannahsten.texifyidea.lang.Package.Companion.NATBIB
 import nl.hannahsten.texifyidea.lang.Package.Companion.SUBFILES
 import nl.hannahsten.texifyidea.lang.Package.Companion.ULEM
 import nl.hannahsten.texifyidea.lang.Package.Companion.XCOLOR
+
+fun knownFileTypes() : Array<String> {
+    val manager = FileTypeManager.getInstance()
+    return manager.registeredFileTypes
+            .map { it.defaultExtension }
+            .toTypedArray()
+}
 
 /**
  * @author Sten Wessel
@@ -502,7 +511,16 @@ enum class LatexRegularCommand(
     FUNCTION("Function", "name".asRequired(), "params".asRequired(), dependency= ALGPSEUDOCODE),
     ENDFUNCTION("EndFunction", dependency= ALGPSEUDOCODE),
     PROCEDURE("Procedure", "name".asRequired(), "params".asRequired(), dependency= ALGPSEUDOCODE),
-    ENDPROCEDURE("EndProcedure", dependency= ALGPSEUDOCODE);
+    ENDPROCEDURE("EndProcedure", dependency= ALGPSEUDOCODE),
+
+
+    /**
+     * Minted
+     */
+    MINTINLINE("mintinline", "language".asRequired(), "code".asRequired(Type.TEXT), dependency = MINTED),
+    INPUTMINTED("inputminted", "language".asRequired(), RequiredFileArgument("file", extensions = *knownFileTypes()), dependency = MINTED),
+    USEMINTEDSTYLE("usemintedstyle", "language".asOptional(), "style".asRequired(), dependency = MINTED),
+    LISTOFLISTINGS("listoflistings", dependency = MINTED);
 
     companion object {
 
