@@ -33,6 +33,7 @@ open class Package @JvmOverloads constructor(
         @JvmField val LUACODE = Package("luacode")
         @JvmField val MATHABX = Package("mathabx")
         @JvmField val MATHTOOLS = Package("mathtools")
+        @JvmField val MINTED = Package("minted")
         @JvmField val NATBIB = Package("natbib")
         @JvmField val SUBFILES = Package("subfiles")
         @JvmField val TIKZ = Package("tikz")
