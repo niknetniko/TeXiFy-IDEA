@@ -101,6 +101,10 @@ enum class DefaultEnvironment(
 
     // listings
     LISTINGS(environmentName = "lstlisting", dependency = Package.LISTINGS),
+    
+    // minted
+    MINTED_LISTING(OptionalArgument("position"), environmentName = "listing", dependency = Package.MINTED),
+    MINTED(RequiredArgument("language"), environmentName = "minted", dependency = Package.MINTED),
 
     // tikz
     TIKZPICTURE(environmentName = "tikzpicture", dependency = Package.TIKZ),
